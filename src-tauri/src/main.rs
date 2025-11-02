@@ -81,6 +81,7 @@ fn launch_game(app: AppHandle, build_name: &str, language: &str, token: Option<&
         swf_filename,
         language.to_lowercase()
     );
+    let flash_vars = format!("appURL={}", swf_url);
 
     // Append token to the URL if it exists
     if let Some(token) = token {
@@ -91,6 +92,8 @@ fn launch_game(app: AppHandle, build_name: &str, language: &str, token: Option<&
 
     // Open the game in Flash Player
     Command::new(&flash_runtime_path)
+        .arg("-FlashVars")
+        .arg(&flash_vars)
         .arg(&swf_url)
         .spawn()
         .map_err(|err| {
