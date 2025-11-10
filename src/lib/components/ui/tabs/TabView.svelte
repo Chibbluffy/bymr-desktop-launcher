@@ -22,6 +22,7 @@
           text="Attack of the Pokies"
         />
         <TabItem path="/leaderboards" Icon={Ranking} text="Leaderboards" />
+        <TabItem path="/attack-logs" Icon={Ranking} text="Attack Logs" />
       </div>
     </div></Menubar.Root
   >

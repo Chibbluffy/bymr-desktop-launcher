@@ -32,21 +32,28 @@ interface ErrorResponse {
  * @param {string} route - The API route to request.
  * @param {object} [formData={}] - The form data to send with the request.
  * @param {string} [method=Method.POST] - The HTTP method to use for the request.
+ * @param {string} [authToken] - (Optional) JWT token to include in the Authorization header.
  * @returns {Promise<ApiResponse<T>>} - A promise that resolves to the API response.
  * @throws {Error} - Throws an error if the request fails or the response is not ok.
  */
 export const invokeApiRequest = async <T>(
   route: string,
   formData = {},
-  method: Method = Method.POST
+  method: Method = Method.POST,
+  authToken?: string
 ): Promise<ApiResponse<T>> => {
   try {
     const version = get(currentGameVersion);
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (authToken) {
+      headers["Authorization"] = `Bearer ${authToken}`;
+    }
     const options = {
       method,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: headers,
       body: method !== Method.GET ? JSON.stringify(formData) : undefined,
     };
 
